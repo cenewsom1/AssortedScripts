@@ -21,7 +21,7 @@ function myFunction() {
 	var pageNum = 1;
 	//document.getElementById("demo").innerHTML = x;
 	
-	urlStr = 'https://api.themoviedb.org/3/search/movie?page=' + pageNum + '&query=' + x + '&api_key=812510ef3fce0141ea3222b70c22b5d9';
+	urlStr = 'https://api.themoviedb.org/3/search/movie?page=' + pageNum + '&query=' + x + '&api_key=<INSERT_KEY_HERE>';
 	//document.getElementById("demo2").innerHTML = urlStr;
 	
 	var settings = {
@@ -45,7 +45,7 @@ $.ajax(settings).done(function (response) {
   } else {
 	for(var i = 0; i < response.total_pages; i++){
 		pageNum = i + 1;
-		urlStr = 'https://api.themoviedb.org/3/search/movie?page='+ (response.page+i) + '&query=' + x + '&api_key=812510ef3fce0141ea3222b70c22b5d9';
+		urlStr = 'https://api.themoviedb.org/3/search/movie?page='+ (response.page+i) + '&query=' + x + '&api_key=<INSERT_KEY_HERE>';
 		settings = {
 			"async": true,
 			"crossDomain": true,
