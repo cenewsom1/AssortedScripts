@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html>
+<body>
+
+Movie Name: <input type="text" id="myText" value="Movie Title">
+
+<p>Click the button to display movie titles containing this string.<p>
+
+<button onclick="myFunction()">Go!</button>
+
+<p id="demo"></p>
+<p id="demo2"></p>
+<p id="demo3"></p>
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+
+<script>
+function myFunction() {
+	var urlStr;
+	var x = document.getElementById("myText").value;
+	var pageNum = 1;
+	//document.getElementById("demo").innerHTML = x;
+	
+	urlStr = 'https://api.themoviedb.org/3/search/movie?page=' + pageNum + '&query=' + x + '&api_key=812510ef3fce0141ea3222b70c22b5d9';
+	//document.getElementById("demo2").innerHTML = urlStr;
+	
+	var settings = {
+  "async": true,
+  "crossDomain": true,
+  "url": urlStr,
+  "method": "GET",
+  "headers": {},
+  "data": "{}"
+}
+
+$.ajax(settings).done(function (response) {
+  console.log(response);
+  document.getElementById("demo3").innerHTML = "";//response.results[1].title;
+  if (response.total_results == 0){
+	document.getElementById("demo3").innerHTML = "Your query did not return any results. Please try a different movie title.";
+  }
+  else if (response.results.total_pages == 1) {
+	for( var i = 0; i < response.results.length; i++)
+		document.getElementById("demo3").innerHTML +=response.results[i].title + "<br>Released: " + response.results[i].release_date + "<br><br>";
+  } else {
+	for(var i = 0; i < response.total_pages; i++){
+		pageNum = i + 1;
+		urlStr = 'https://api.themoviedb.org/3/search/movie?page='+ (response.page+i) + '&query=' + x + '&api_key=812510ef3fce0141ea3222b70c22b5d9';
+		settings = {
+			"async": true,
+			"crossDomain": true,
+			"url": urlStr,
+			"method": "GET",
+			"headers": {},
+			"data": "{}"
+		}
+		$.ajax(settings).done(function (response2) {
+			console.log(response2);
+			//document.getElementById("demo2").innerHTML = response.total_pages;
+			for( var j = 0; j < response2.results.length; j++)
+				document.getElementById("demo3").innerHTML +=response2.results[j].title + "<br>Released: " + response2.results[j].release_date + "<br><br>";
+		});
+	}
+  }
+});
+
+
+}
+</script>
+
+
+</body>
+</html>
